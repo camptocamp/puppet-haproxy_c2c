@@ -44,5 +44,6 @@ define haproxy::config ($changes, $onlyif = true) {
     context   => "/files/etc/haproxy/haproxy.cfg",
     changes   => $changes,
     load_path => "/etc/haproxy",
+    notify    => Service["haproxy"],
   }
 }
