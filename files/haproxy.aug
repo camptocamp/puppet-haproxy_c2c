@@ -36,9 +36,9 @@ let words     = /[^# \t\n]+([ \t]+[^# \t\n]+)*/
 let option_re = ( /option[ \t]+/ . word ) |
                 ( word - /option/ )
 
-let optio     = key opt_re . ( spc . store words ) ?
+let option    = key option_re . ( spc . store words ) ?
 
-let param     = [ indent . opt . (eol|comment) ]
+let line = [ indent . option . (eol|comment) ]
 
 (*
 
@@ -46,7 +46,7 @@ let param     = [ indent . opt . (eol|comment) ]
 
 *)
 
-let item      = ( param | comment | empty )
+let item      = ( line | comment | empty )
 
 let section   = [ key word . ( spc . store words ) ? . eol .  item * ]
 
