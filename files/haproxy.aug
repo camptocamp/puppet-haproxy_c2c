@@ -7,6 +7,10 @@
    About: License
    This file is licensed under the GPL
 
+   Todo:
+      - Remove multiple whitespaces from keys
+      - Remove multiple whitespaces from option values
+
 *)
 
 module Haproxy =
@@ -25,29 +29,28 @@ let words     = /[^# \t\n]+([ \t]+[^# \t\n]+)*/
 
 (*
 
-  Sections
-
-*)
-
-let opt_re    = ( /option[ \t]+/ . word ) |
-                ( word - /option/ )
-
-let opt       = [ key opt_re . ( spc . store words ) ? ]
-
-let params    = indent . opt . (eol|comment)
-
-(*
-
   Parameters
 
 *)
 
+let option_re = ( /option[ \t]+/ . word ) |
+                ( word - /option/ )
 
-let section   = [ key word . ( spc . store words ) ? . eol .
-                  ( params ) * ]
+let optio     = key opt_re . ( spc . store words ) ?
 
+let param     = [ indent . opt . (eol|comment) ]
 
-let lns       = (comment|empty|section) *
+(*
+
+  Sections
+
+*)
+
+let item      = ( param | comment | empty )
+
+let section   = [ key word . ( spc . store words ) ? . eol .  item * ]
+
+let lns       = (comment|empty) *  . section *
 
 let filter    = incl "/etc/haproxy/haproxy.cfg"
                 . Util.stdexcl
