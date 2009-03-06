@@ -23,6 +23,13 @@ class haproxy {
     group   => "root",
     mode    => "644",
     require => Package["haproxy"],
+    notify  => Service["haproxy"],
+  }
+
+  # Augeas lens
+  file {"/etc/haproxy/haproxy.aug":
+    ensure => present,
+    source => "puppet:///haproxy/haproxy.aug",
   }
 
   augeas {"enable haproxy" :
@@ -30,4 +37,12 @@ class haproxy {
     changes => "set ENABLED 1",
     onlyif  => "get ENABLED != 1",
  }
+}
+
+define haproxy::config ($changes, $onlyif = true) {
+  augeas {"haproxy.${name}":
+    context   => "/files/etc/haproxy/haproxy.cfg",
+    changes   => $changes,
+    load_path => "/etc/haproxy",
+  }
 }
