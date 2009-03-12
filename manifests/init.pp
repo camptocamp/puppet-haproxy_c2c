@@ -7,6 +7,8 @@ class haproxy {
     ensure => running,
     enable => true,
     subscribe => [File["haproxy_default"], File["haproxy_config"]],
+    hasstatus => true,
+    restart   => "/etc/init.d/haproxy reload",
   }
 
   file {"haproxy_default":
