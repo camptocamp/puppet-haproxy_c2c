@@ -6,10 +6,11 @@ class haproxy {
   service {"haproxy":
     ensure => running,
     enable => true,
-    subscribe => [File["/etc/default/haproxy"], File["/etc/haproxy/haproxy.cfg"]],
+    subscribe => [File["haproxy_default"], File["haproxy_config"]],
   }
 
-  file {"/etc/default/haproxy":
+  file {"haproxy_default":
+    name    => "/etc/default/haproxy",
     ensure  => present,
     owner   => "root",
     group   => "root",
@@ -17,7 +18,8 @@ class haproxy {
     require => Package["haproxy"],
   }
 
-  file {"/etc/haproxy/haproxy.cfg":
+  file {"haproxy_config":
+    name    => "/etc/haproxy/haproxy.cfg",
     ensure  => present,
     owner   => "root",
     group   => "root",
@@ -37,6 +39,7 @@ class haproxy {
     context => "/files/etc/default/haproxy",
     changes => "set ENABLED 1",
     onlyif  => "get ENABLED != 1",
+    require => File["haproxy_default"],
  }
 }
 
