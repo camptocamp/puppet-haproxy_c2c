@@ -28,8 +28,9 @@ class haproxy {
 
   # Augeas lens
   file {"/etc/haproxy/haproxy.aug":
-    ensure => present,
-    source => "puppet:///haproxy/haproxy.aug",
+    ensure  => present,
+    source  => "puppet:///haproxy/haproxy.aug",
+    require => Package["haproxy"],
   }
 
   augeas {"enable haproxy" :
