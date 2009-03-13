@@ -34,6 +34,9 @@ class haproxy {
   file {"/etc/haproxy/haproxy.aug":
     ensure  => present,
     source  => "puppet:///haproxy/haproxy.aug",
+    owner   => "root",
+    group   => "root",
+    mode    => 644,
     require => Package["haproxy"],
   }
 
