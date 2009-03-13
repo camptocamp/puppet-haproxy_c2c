@@ -5,11 +5,12 @@
    Author: Francois Deppierraz <francois.deppierraz@camptocamp.com>
    
    About: License
-   This file is licensed under the GPL
+   This file is licensed under the LGPL
 
    Todo:
       - Remove multiple whitespaces from keys
       - Remove multiple whitespaces from option values
+      - Named defaults sections are not correctly parsed
 
 *)
 
@@ -48,9 +49,13 @@ let line = [ indent . option . (eol|comment) ]
 
 let item      = ( line | comment | empty )
 
-let section   = [ key word . ( spc . store words ) ? . eol .  item * ]
+let global_re = "global"|"defaults"
+let global    = [ key global_re . eol .  item * ]
 
-let lns       = (comment|empty) *  . section *
+let section_re = "listen"|"frontend"|"backend"
+let section   = [ key section_re . spc . [ key word . ( spc . store words ) ? . eol .  item * ] ]
+
+let lns       = (comment|empty) *  . (global|section) *
 
 let filter    = incl "/etc/haproxy/haproxy.cfg"
                 . Util.stdexcl
