@@ -19,6 +19,14 @@ PATOUT = '%(client_ip)s - - [%(date)s] "%(request)s" %(http_return_code)s %(byte
 
 parse_errors = 0
 lines = 0
+files = {}
+
+# Parse arguments
+try:
+  directory = sys.argv[1]
+except:
+  print "Usage: %s directory < local2.log"
+  sys.exit(1)
 
 while 1:
   line = sys.stdin.readline()
@@ -31,11 +39,19 @@ while 1:
 
   try:
     hash = dict(map(None, FIELDS, values[0]))
-    print PATOUT % hash
+    server = hash["server_name"].split("/")[0]
   except:
     sys.stderr.write("Warning: cannot parse: \n" + PATIN + "\n" + line + "\n")
     parse_errors += 1
     pass
+ 
+  if not files.has_key(server):
+    files[server] = file("%s/%s.log" % (directory, server), "w")
+
+  files[server].write(PATOUT % hash + "\n")
+
+for f in files.values():
+  f.close()
 
 sys.stderr.write("Parsed lines: %d\n" % lines)
 sys.stderr.write("Parse errors: %d\n" % parse_errors)
