@@ -47,19 +47,3 @@ class haproxy {
     require => File["haproxy_default"],
  }
 }
-
-define haproxy::augeas ($changes, $onlyif = undef) {
-  augeas {"haproxy.${name}":
-    context   => "/files/etc/haproxy/haproxy.cfg",
-    changes   => $changes,
-    onlyif    => $onlyif,
-    load_path => "/etc/haproxy",
-    notify    => Service["haproxy"],
-  }
-}
-
-define haproxy::config ($ensure) {
-  haproxy::augeas {$name:
-    changes => "set '${name}' '${ensure}'",
-  }
-}
