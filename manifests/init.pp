@@ -33,7 +33,7 @@ class haproxy {
   # Augeas lens
   file {"/etc/haproxy/haproxy.aug":
     ensure  => present,
-    source  => "puppet:///haproxy/haproxy.aug",
+    source  => "puppet:///modules/haproxy/haproxy.aug",
     owner   => "root",
     group   => "root",
     mode    => 644,
