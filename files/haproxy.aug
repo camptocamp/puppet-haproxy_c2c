@@ -3,6 +3,7 @@
    Haproxy module for Augeas
    
    Author: Francois Deppierraz <francois.deppierraz@camptocamp.com>
+   Fix and Tests: Bryon Roche <bryon@gogrid.com>
    
    About: License
    This file is licensed under the LGPL
@@ -34,8 +35,8 @@ let words     = /[^# \t\n]+([ \t]+[^# \t\n]+)*/
 
 *)
 
-let option_re = ( /option[ \t]+/ . word ) |
-                ( word - /option/ )
+let option_re = ( /(no option|option)[ \t]+/ . word ) |
+                ( word - /option|no/ )
 
 let option    = key option_re . ( spc . store words ) ?
 
