@@ -1,5 +1,8 @@
 define haproxy::config ($ensure) {
-  haproxy::augeas {$name:
-    changes => "set '${name}' '${ensure}'",
+  augeas { "haproxy.${name}":
+    incl    => '/etc/haproxy/haproxy.cfg',
+    lens    => 'Haproxy.lns',
+    changes => "set 'haproxy.${name}' '${ensure}'",
+    notify  => Service["haproxy"],
   }
 }
