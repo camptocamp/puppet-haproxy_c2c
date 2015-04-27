@@ -1,6 +1,6 @@
 class haproxy_c2c {
   package {'haproxy':
-    ensure => present
+    ensure => present,
   }
 
   service {'haproxy':
@@ -12,7 +12,7 @@ class haproxy_c2c {
   }
 
   file {'haproxy_config':
-    ensure  => present,
+    ensure  => file,
     name    => '/etc/haproxy/haproxy.cfg',
     owner   => 'root',
     group   => 'root',
@@ -23,8 +23,8 @@ class haproxy_c2c {
 
   # Augeas lens
   file {'/etc/haproxy/haproxy.aug':
-    ensure  => present,
-    source  => 'puppet:///modules/haproxy_c2c/haproxy.aug',
+    ensure  => file,
+    content  => file('haproxy_c2c/haproxy.aug'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
