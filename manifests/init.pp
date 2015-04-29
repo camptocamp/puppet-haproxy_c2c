@@ -24,7 +24,7 @@ class haproxy_c2c {
   # Augeas lens
   file {'/etc/haproxy/haproxy.aug':
     ensure  => file,
-    content  => file('haproxy_c2c/haproxy.aug'),
+    content => file('haproxy_c2c/haproxy.aug'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
@@ -39,7 +39,7 @@ class haproxy_c2c {
   }
 
   augeas::lens { 'haproxy':
-    ensure      => present,
-    lens_source => 'puppet:///modules/haproxy_c2c/haproxy.aug',
+    ensure       => present,
+    lens_content => file('haproxy_c2c/haproxy.aug'),
   }
 }
