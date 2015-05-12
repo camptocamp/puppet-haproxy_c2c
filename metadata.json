@@ -1,6 +1,6 @@
 {
   "name": "camptocamp-haproxy_c2c",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Camptocamp",
   "summary": "Puppet HAProxy module",
   "license": "Apache-2.0",
@@ -8,6 +8,7 @@
   "project_page": "https://github.com/camptocamp/puppet-haproxy_c2c",
   "issues_url": "https://github.com/camptocamp/puppet-haproxy_c2c/issues",
   "dependencies": [
+
   ],
   "puppet_version": [
     "3.7"
