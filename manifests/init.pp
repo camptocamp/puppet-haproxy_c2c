@@ -1,4 +1,6 @@
-class haproxy_c2c {
+class haproxy_c2c (
+  Optional[String] $haproxy_config_content = undef,
+) {
   package {'haproxy':
     ensure => present,
   }
@@ -13,7 +15,8 @@ class haproxy_c2c {
 
   file {'haproxy_config':
     ensure  => file,
-    name    => '/etc/haproxy/haproxy.cfg',
+    path    => '/etc/haproxy/haproxy.cfg',
+    content => $haproxy_config_content,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
